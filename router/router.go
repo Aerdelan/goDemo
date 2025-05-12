@@ -9,4 +9,5 @@ import (
 func SetupRoutes(r *gin.Engine) {
 	r.GET("/hello", controller.HelloHandler)
 	r.GET("/users", controller.GetUsers)
+	r.GET("/getUser", controller.GetUserByID)
 }

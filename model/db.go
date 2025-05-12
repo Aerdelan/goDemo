@@ -22,8 +22,8 @@ func InitDB() {
 
 	// 测试数据库连接
 	if err := DB.Ping(); err != nil {
-		log.Fatalf("Failed to ping database: %v", err)
+		log.Fatalf("连接失败: %v", err)
 	}
 
-	fmt.Println("Database connected successfully!")
+	fmt.Println("连接成功!")
 }

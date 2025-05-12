@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"my-gin-app/model"
 	"net/http"
 
@@ -32,4 +33,21 @@ func GetUsers(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, users)
+}
+
+func GetUserByID(c *gin.Context) {
+	id := c.Param("id")
+	var user model.User
+
+	err := model.DB.QueryRow("SELECT id, username, email FROM users WHERE id = ?", id).Scan(&user.ID, &user.Username, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusNotFound, gin.H{"error": "查询不到该用户"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }
